@@ -15,9 +15,9 @@ private:
 public:
     Task(int id, std::string title, std::string description, std::string limitDate, std::string status);
     void display();
-    static void displayTasks(std::vector<Task>& tasks);
+    static void display_tasks(std::vector<Task>& tasks);
 
-    static void editTask(Task& task);
+    static void edit_task(Task& task);
 
     int getId() const;
     std::string getTitle() const;

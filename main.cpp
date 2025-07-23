@@ -1,21 +1,13 @@
 
 #include <iostream>
 #include <ostream>
-//#include <vector>
 
 #include "includes/LegacyTask.h++"
-//#include "includes/Task.h++"
 
 int main() {
-    //std::vector<Task> tasks = {
-    //    {1, "title", "description", "limitDate", "statusmdr"},
-    //    {2, "Title", "Desc", "LimitDate", "Status"}
-    //};
-    //Task::displayTasks(tasks);
-    //Task::editTask(tasks[0]);
-    //Task::displayTasks(tasks);
-
-    std::string result = LegacyTask::exec_c_array("tasklist");
-    std::cout << system("tasklist") << std::endl;
+    std::string resultString = LegacyTask::exec_c_array("tasklist");
+    std::vector<LegacyTask> legacyTasks = LegacyTask::split_task_c_array(resultString);
+    std::cout << resultString << std::endl << "=================" << std::endl;
+    std::cout << legacyTasks[2].getImageName() << std::endl;
     return 0;
 }

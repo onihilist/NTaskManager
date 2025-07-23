@@ -6,6 +6,7 @@
 #define LEGACYTASK_H
 #include <iostream>
 #include <string>
+#include <vector>
 
 class LegacyTask {
 
@@ -17,10 +18,11 @@ class LegacyTask {
         int memoryUsage;
 
     public:
-        LegacyTask(std::string imageName, std::string sessionName, int sessionNumber, int memoryUsage);
+        LegacyTask(std::string imageName, int pID, std::string sessionName, int sessionNumber, int memoryUsage);
         ~LegacyTask();
 
         static std::string exec_c_array(const char* cmd);
+        static std::vector<LegacyTask> split_task_c_array(const std::string& s);
 
         void setImageName(std::string imageName);
         void setPID(int pID);
@@ -28,11 +30,11 @@ class LegacyTask {
         void setSessionNumber(int sessionNumber);
         void setMemoryUsage(int memoryUsage);
 
-        std::string getImageName();
-        int getPID();
-        std::string getSessionName();
-        int getSessionNumber();
-        int getMemoryUsage();
+        std::string getImageName() const;
+        int getPID() const;
+        std::string getSessionName() const;
+        int getSessionNumber() const;
+        int getMemoryUsage() const;
 
 };
 

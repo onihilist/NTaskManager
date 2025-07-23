@@ -28,13 +28,13 @@ void Task::display() {
     std::cout << "Status: " << status << std::endl;
 }
 
-void Task::displayTasks(std::vector<Task>& tasks) {
+void Task::display_tasks(std::vector<Task>& tasks) {
     for (Task& t : tasks) {
         t.display();
         std::cout << "-------------------\n";
     }
 }
 
-void Task::editTask(Task& task) {
+void Task::edit_task(Task& task) {
         task.setTitle("ID_" + std::to_string(task.getId()));
 }
