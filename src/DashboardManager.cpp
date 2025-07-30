@@ -19,7 +19,7 @@ DashboardManager::DashboardManager()
 
 void DashboardManager::run() {
 
-    ProcessTableUI *processTableUI = new ProcessTableUI();
+    const auto processTableUI = new ProcessTableUI();
 
     Component task_list = Container::Vertical({
         Checkbox("Show PID", &processTableUI->show_pid),
@@ -43,9 +43,9 @@ void DashboardManager::run() {
     Component layout = Renderer(panes, [&] {
         return gridbox({
             {
-                Cells::cell_20x1(text("NTaskManager") | color(Color::Cyan) | center),
-                Cells::cell_110x1(text("")),
-                Cells::cell_40x1(text("[CPU 56%] [GPU 2%] [MEM 68%]") | color(Color::Grey53) | center),
+                Cells::cell_20x1(text("NTaskManager") | color(Color::SandyBrown) | center),
+                Cells::cell_110x1(text("NTaskManager") | color(Color::SandyBrown) | center),
+                Cells::cell_40x1(text("[CPU 56%] [GPU 2%] [MEM 68%]") | color(Color::SandyBrown) | center),
             },
             {
                 Cells::cell_30x10(
@@ -61,7 +61,7 @@ void DashboardManager::run() {
             {
                 Cells::cell(text("south-west")),
                 Cells::cell(text("Press ← → to switch focus")),
-                Cells::cell(text("Press 'q/Q' to quit") | color(Color::Yellow) | center),
+                Cells::cell(text("Press 'q/Q' to quit") | color(Color::Red1) | center),
             },
         });
     });
