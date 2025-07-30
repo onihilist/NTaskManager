@@ -2,7 +2,6 @@
 // Created by onihilist on 24/07/2025.
 //
 #include "../includes/DashboardManager.h++"
-#include <iostream>
 
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/event.hpp>

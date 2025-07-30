@@ -3,7 +3,6 @@
 #include <ostream>
 
 #include "includes/DashboardManager.h++"
-#include "includes/LegacyTask.h++"
 
 int main() {
     /*std::string resultString = LegacyTask::exec_c_array("tasklist");

@@ -1,34 +1,22 @@
 #include "../../includes/ui/ProcessTableUI.h++"
 #include "../../includes/ui/Cells.h++"
+#include "../../includes/ProcessInfo.h++"
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/component/component.hpp>
 
 using namespace ftxui;
 
 ProcessTableUI::ProcessTableUI() {
-    rows = {
-        {"PID", "Name", "CPU%", "Memory"},
-        {"1234", "chrome.exe", "25", "200 MB"},
-        {"5678", "explorer.exe", "2", "50 MB"},
-        {"9101", "ntask.exe", "12", "100 MB"},
-        {"1121", "spotify.exe", "5", "150 MB"},
-        {"1314", "code.exe", "30", "400 MB"},
-        {"1516", "discord.exe", "3", "220 MB"},
-        {"1718", "steam.exe", "1", "120 MB"},
-        {"1819", "terminal.exe", "7", "90 MB"},
-        {"1920", "game.exe", "80", "2 GB"},
-    };
+    static ProcessInfo info = ProcessInfo();
+    auto rows = info.GetProcessesTable();
 
-    // Crée les labels une fois pour toutes
     for (size_t i = 1; i < rows.size(); i++)
         labels.push_back(rows[i][1]);
 }
 
 Component ProcessTableUI::getTable() {
-    // On crée le menu une fois (sur labels fixes)
     Component table_menu = Menu(&labels, &selected_row);
 
-    // Renderer encapsulé
     return Renderer(table_menu, [&] {
         Elements header_cells;
         if (show_pid)
