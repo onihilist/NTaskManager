@@ -21,6 +21,9 @@ add_executable(NTaskManager main.cpp
         includes/Utils.h++
         src/DashboardManager.cpp
         includes/DashboardManager.h++
+        src/ui/ProcessTableUI.cpp
+        includes/ui/ProcessTableUI.h++
+        includes/ui/Cells.h++
 )
 
 target_link_libraries(NTaskManager PRIVATE ftxui::screen ftxui::dom ftxui::component)

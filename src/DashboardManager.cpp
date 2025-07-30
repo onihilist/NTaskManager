@@ -1,7 +1,6 @@
 //
 // Created by onihilist on 24/07/2025.
 //
-
 #include "../includes/DashboardManager.h++"
 #include <iostream>
 
@@ -10,62 +9,64 @@
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 
+#include "../includes/ui/Cells.h++"
+#include "../includes/ui/ProcessTableUI.h++"
+
 using namespace ftxui;
 
 DashboardManager::DashboardManager()
     : title("NTaskManager") {}
 
 void DashboardManager::run() {
-    // cell builders
-    auto cell_20x1 = [](Element e) { return e | size(WIDTH, EQUAL, 20) | size(HEIGHT, EQUAL, 1) | border; };
-    auto cell_110x1 = [](Element e) { return e | size(WIDTH, EQUAL, 110) | size(HEIGHT, EQUAL, 1) | border; };
-    auto cell_40x1 = [](Element e) { return e | size(WIDTH, EQUAL, 40) | size(HEIGHT, EQUAL, 1) | border; };
-    auto cell_30x10 = [](Element e) { return e | size(WIDTH, EQUAL, 30) | size(HEIGHT, EQUAL, 10) | border; };
-    auto cell_110x30 = [](Element e) { return e | size(WIDTH, EQUAL, 110) | size(HEIGHT, EQUAL, 30) | border; };
-    auto cell = [](Element e) { return e | border; };
 
-    CheckboxOption opt1{.label = "Show PID", .checked = true};
-    CheckboxOption opt2{.label = "Show memory usage", .checked = false};
-    CheckboxOption opt3{.label = "Show CPU usage", .checked = false};
+    ProcessTableUI *processTableUI = new ProcessTableUI();
 
     Component task_list = Container::Vertical({
-        Checkbox(opt1),
-        Checkbox(opt2),
-        Checkbox(opt3),
+        Checkbox("Show PID", &processTableUI->show_pid),
+        Checkbox("Show CPU usage", &processTableUI->show_cpu),
+        Checkbox("Show memory usage", &processTableUI->show_mem),
     });
 
-    Component layout = Renderer(task_list, [&] {
+    Component table_menu = Menu(&processTableUI->labels, &processTableUI->selected_row);
+
+    Component panes = Container::Tab({
+        task_list,
+        table_menu,
+    }, &selected_pane);
+
+    panes = CatchEvent(panes, [&](Event e) {
+        if (e == Event::ArrowRight) { selected_pane = 1; return true; }
+        if (e == Event::ArrowLeft)  { selected_pane = 0; return true; }
+        return false;
+    });
+
+    Component layout = Renderer(panes, [&] {
         return gridbox({
             {
-                cell_20x1(text("NTaskManager") | color(Color::Cyan) | center),
-                cell_110x1(text("")),
-                cell_40x1(text("[CPU 56%] [GPU 2%] [MEM 68%]") | color(Color::Grey53) | center),
+                Cells::cell_20x1(text("NTaskManager") | color(Color::Cyan) | center),
+                Cells::cell_110x1(text("")),
+                Cells::cell_40x1(text("[CPU 56%] [GPU 2%] [MEM 68%]") | color(Color::Grey53) | center),
             },
             {
-                cell_30x10(
+                Cells::cell_30x10(
                     vbox({
                         text("Options") | center,
                         separator(),
-                        task_list->Render()
+                        task_list->Render(),
                     })
                 ),
-                gridbox({
-                    {
-                        cell_110x30(text("center"))
-                    }
-                }),
-                cell_30x10(text("center-east")),
+                processTableUI->getTable()->Render(),
+                Cells::cell_30x10(text("center-east")),
             },
             {
-                cell(text("south-west")),
-                cell(text("south")),
-                cell(text("Press 'q' to quit") | color(Color::Yellow) | center),
+                Cells::cell(text("south-west")),
+                Cells::cell(text("Press ← → to switch focus")),
+                Cells::cell(text("Press 'q/Q' to quit") | color(Color::Yellow) | center),
             },
         });
     });
 
     auto screen = ScreenInteractive::FitComponent();
-
     auto app = CatchEvent(layout, [&](Event event) {
         if (event == Event::Character('q') || event == Event::Character('Q')) {
             screen.Exit();
@@ -75,5 +76,4 @@ void DashboardManager::run() {
     });
 
     screen.Loop(app);
-
 }

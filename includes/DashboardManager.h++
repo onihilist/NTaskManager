@@ -10,7 +10,7 @@
 class DashboardManager {
 public:
     DashboardManager();
-
+    int selected_pane = 0;
     void run();
 
 private:
