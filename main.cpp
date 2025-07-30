@@ -1,7 +1,4 @@
 
-#include <iostream>
-#include <ostream>
-
 #include "includes/DashboardManager.h++"
 
 int main() {

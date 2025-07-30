@@ -1,8 +1,6 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <string>
-
 namespace Utils {
     namespace color {
         inline constexpr const char* Reset         = "\033[0m";
